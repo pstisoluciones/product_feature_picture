@@ -1,0 +1,184 @@
+<openerp>
+    <data>
+
+        <record id="product_feature_form" model="ir.ui.view">
+            <field name="name">Product Feature</field>
+            <field name="model">product.feature.picture</field>
+            <field name="arch" type="xml">
+                <form string="Product Feature">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field nolabel="1" name="picture" widget="image" class="oe_avatar oe_left"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="product_feature_tree" model="ir.ui.view">
+            <field name="name">Product Feature</field>
+            <field name="model">product.feature.picture</field>
+            <field name="arch" type="xml">
+                <tree string="Product Feature">
+                    <field  name="name" />
+                    <field  name="picture" widget="image" class="oe_avatar oe_left"/>
+                  </tree>
+            </field>
+        </record>
+
+
+        <record id="inherit_product_feature_form" model="ir.ui.view">
+            <field name="name">Product Logo</field>
+            <field name="inherit_id" ref="product_feature_picture.product_feature_form"/>
+            <field name="model">product.feature.logo</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picture']" position="after">
+                    <field name="legend"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_product_feature_tree" model="ir.ui.view">
+            <field name="name">Product Logo</field>
+            <field name="model">product.feature.logo</field>
+            <field name="inherit_id" ref="product_feature_picture.product_feature_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="legend"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_logo_form" model="ir.ui.view">
+            <field name="name">Product Logo</field>
+            <field name="model">product.feature.logo</field>
+            <field name="arch" type="xml">
+                <form string="Product Feature">
+                    <sheet>
+                         <div class="oe_left" style="width: 500px;">
+                            <field name="picture" widget="image" class="oe_avatar oe_left"/>
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="legend" string="Legend"/>
+                                <field name="legend" class="oe_inline"/>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="product_product_feature_form" model="ir.ui.view">
+            <field name="name">template extension feature</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group col="2">
+
+                        <label for="picture_ids" class="oe_edit_only" string="Picture"/>
+                        <field nolabel="1" colspan="4" name="picture_ids" widget="many2many_kanban">
+
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field  name="sequence"/>
+                                <field  name="thumb"/>
+                                      <templates>
+                                          <t t-name="kanban-box">
+                                              <div style="position: relative">
+                                                  <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                  <div class="oe_avatar oe_left"  style="width: 105px;">
+                                                      <a type="open">
+                                                            <img t-att-src="kanban_image('product.feature.picture', 'thumb', record.thumb.value)" class="oe_avatar oe_kanban_avatar"/>
+                                                      </a>
+                                                  </div>
+                                              </div>
+                                          </t>
+                                      </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="product_product_logo_form" model="ir.ui.view">
+            <field name="name">template extension feature logo</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group col="2">
+                        <field colspan="4" name="logo_ids" widget="many2many_kanban">
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field  name="sequence"/>
+                                <field  name="thumb"/>
+                                      <templates>
+                                          <t t-name="kanban-box">
+                                              <div style="position: relative">
+                                                  <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                  <div class="oe_avatar oe_left"  style="width: 105px;">
+                                                      <a type="open">
+                                                            <img t-att-src="kanban_image('product.feature.picture', 'thumb', record.thumb.value)" class="oe_avatar oe_kanban_avatar"/>
+                                                      </a>
+                                                  </div>
+                                              </div>
+                                          </t>
+                                      </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="action_menu_feature_logo" model="ir.actions.act_window">
+            <field name="name">Feature</field>
+            <field name="res_model">product.feature.logo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="inherit_product_feature_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register a feature logo.
+              </p><p>
+                Here you will find the history.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_menu_feature_picture" model="ir.actions.act_window">
+            <field name="name">Picture</field>
+            <field name="res_model">product.feature.picture</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_feature_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register a feature picture.
+              </p><p>
+                Here you will find the history.
+              </p>
+            </field>
+        </record>
+
+
+ <menuitem action="action_menu_feature_picture" id="menu_action_picture"  parent="sale.prod_config_main" sequence="1"/>
+ <menuitem action="action_menu_feature_logo" id="menu_action_logo"  parent="sale.prod_config_main" sequence="1"/>
+
+
+    </data>
+</openerp>
+
+
+
